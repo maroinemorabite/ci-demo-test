@@ -23,8 +23,8 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Installation des dépendances
-                    sh 'pip install -r requirements.txt'
+                    // Installation des dépendances avec --user ou en forçant le pip du venv
+                    sh './venv/bin/pip install -r requirements.txt'
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     // Exécution des tests
-                    sh 'pytest'
+                    sh './venv/bin/pytest'
                 }
             }
         }
