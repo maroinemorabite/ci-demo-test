@@ -23,7 +23,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Installation des dépendances avec --user ou en forçant le pip du venv
+                    // Installation des dépendances avec pip
                     sh './venv/bin/pip install -r requirements.txt'
                 }
             }
@@ -34,15 +34,6 @@ pipeline {
                 script {
                     // Exécution des tests
                     sh './venv/bin/pytest'
-                }
-            }
-        }
-
-        stage('Deactivate Virtual Environment') {
-            steps {
-                script {
-                    // Désactivation de l'environnement virtuel
-                    sh 'deactivate'
                 }
             }
         }
