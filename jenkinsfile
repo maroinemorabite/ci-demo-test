@@ -2,16 +2,58 @@ pipeline {
     agent any
 
     stages {
+        stage('Set Up Virtual Environment') {
+            steps {
+                script {
+                    // Création de l'environnement virtuel
+                    sh 'python3 -m venv venv'
+                }
+            }
+        }
+        
+        stage('Activate Virtual Environment') {
+            steps {
+                script {
+                    // Activation de l'environnement virtuel
+                    sh '. venv/bin/activate'
+                }
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                script {
+                    // Installation des dépendances
+                    sh 'pip install -r requirements.txt'
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'pytest'
+                script {
+                    // Exécution des tests
+                    sh 'pytest'
+                }
             }
+        }
+
+        stage('Deactivate Virtual Environment') {
+            steps {
+                script {
+                    // Désactivation de l'environnement virtuel
+                    sh 'deactivate'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and tests successful!'
+        }
+        failure {
+            echo 'Build or tests failed.'
         }
     }
 }
